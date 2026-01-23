@@ -34,3 +34,6 @@ Desktop.ini
 
 # Mac
 .DS_Store
+
+# Test server output
+test-server/**/out/

@@ -16,9 +16,9 @@ public class AppConfiguration
     public List<ServerGroupAssignment> Assignments { get; set; } = new();
 
     /// <summary>
-    /// List of process names to monitor (e.g., "node", "dotnet", "Ripples.Api").
+    /// List of process names to ignore (blacklist). These won't be shown in the UI.
     /// </summary>
-    public List<string> MonitoredProcessNames { get; set; } = new() { "node", "dotnet" };
+    public List<string> IgnoredProcessNames { get; set; } = new();
 
     /// <summary>
     /// List of remembered servers that persist even when stopped.

@@ -66,7 +66,7 @@ public class ProcessMonitorService : IProcessMonitorService, IDisposable
     {
         try
         {
-            var monitoredNames = new HashSet<string>(_configService.GetMonitoredProcessNames(), StringComparer.OrdinalIgnoreCase);
+            var ignoredNames = new HashSet<string>(_configService.GetIgnoredProcessNames(), StringComparer.OrdinalIgnoreCase);
             var portsByPid = _portDetectionService.GetListeningPortsByPid();
             var newServers = new List<ServerProcess>();
 
@@ -74,9 +74,11 @@ public class ProcessMonitorService : IProcessMonitorService, IDisposable
             {
                 try
                 {
-                    if (!monitoredNames.Contains(process.ProcessName))
+                    // Skip if process is in the ignore list
+                    if (ignoredNames.Contains(process.ProcessName))
                         continue;
 
+                    // Skip processes that don't have listening ports
                     if (!portsByPid.TryGetValue(process.Id, out var ports))
                         continue;
 
@@ -90,8 +92,14 @@ public class ProcessMonitorService : IProcessMonitorService, IDisposable
                     }
                     catch
                     {
-                        // Access denied for some processes
+                        // Access denied for some processes - skip them
+                        continue;
                     }
+
+                    // Only include processes that have a valid executable path
+                    // This filters out system processes we can't access
+                    if (string.IsNullOrEmpty(executablePath))
+                        continue;
 
                     // Get command line and working directory
                     var (commandLine, workingDir) = GetProcessCommandLine(process.Id);

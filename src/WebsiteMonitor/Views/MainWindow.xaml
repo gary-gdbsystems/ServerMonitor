@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
         Title="Website Monitor"
-        Width="420" Height="520"
+        Width="500" Height="520"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
@@ -92,7 +92,14 @@
                                 Style="{StaticResource IconButton}"
                                 Width="32" Height="32"
                                 FontSize="13"
+                                Margin="0,0,4,0"
                                 ToolTip="Pin window (keep open)"/>
+                        <Button Content="✕"
+                                Command="{Binding ExitCommand}"
+                                Style="{StaticResource IconButton}"
+                                Width="32" Height="32"
+                                FontSize="14"
+                                ToolTip="Exit application"/>
                     </StackPanel>
                 </Grid>
             </Border>

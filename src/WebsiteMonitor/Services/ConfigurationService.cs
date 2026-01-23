@@ -139,11 +139,6 @@ public class ConfigurationService : IConfigurationService
                 lock (_lock)
                 {
                     _config = config;
-                    // Ensure default process names exist
-                    if (_config.MonitoredProcessNames.Count == 0)
-                    {
-                        _config.MonitoredProcessNames = new List<string> { "node", "dotnet" };
-                    }
                 }
             }
         }
@@ -154,15 +149,15 @@ public class ConfigurationService : IConfigurationService
         }
     }
 
-    public IReadOnlyList<string> GetMonitoredProcessNames()
+    public IReadOnlyList<string> GetIgnoredProcessNames()
     {
         lock (_lock)
         {
-            return _config.MonitoredProcessNames.ToList();
+            return _config.IgnoredProcessNames.ToList();
         }
     }
 
-    public void AddMonitoredProcessName(string processName)
+    public void AddIgnoredProcessName(string processName)
     {
         if (string.IsNullOrWhiteSpace(processName)) return;
 
@@ -175,24 +170,34 @@ public class ConfigurationService : IConfigurationService
 
         lock (_lock)
         {
-            if (!_config.MonitoredProcessNames.Contains(name, StringComparer.OrdinalIgnoreCase))
+            if (!_config.IgnoredProcessNames.Contains(name, StringComparer.OrdinalIgnoreCase))
             {
-                _config.MonitoredProcessNames.Add(name);
+                _config.IgnoredProcessNames.Add(name);
             }
         }
         Save();
     }
 
-    public void RemoveMonitoredProcessName(string processName)
+    public void RemoveIgnoredProcessName(string processName)
     {
         if (string.IsNullOrWhiteSpace(processName)) return;
 
         lock (_lock)
         {
-            _config.MonitoredProcessNames.RemoveAll(n =>
+            _config.IgnoredProcessNames.RemoveAll(n =>
                 n.Equals(processName, StringComparison.OrdinalIgnoreCase));
         }
         Save();
+    }
+
+    public bool IsProcessIgnored(string processName)
+    {
+        if (string.IsNullOrWhiteSpace(processName)) return false;
+
+        lock (_lock)
+        {
+            return _config.IgnoredProcessNames.Contains(processName, StringComparer.OrdinalIgnoreCase);
+        }
     }
 
     public IReadOnlyList<RememberedServer> GetRememberedServers()

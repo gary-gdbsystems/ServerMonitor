@@ -36,6 +36,9 @@
             <MenuItem Header="Stop Process" Command="{Binding KillProcessCommand}"
                       IsEnabled="{Binding IsRunning}"/>
             <MenuItem Header="Remove from List" Command="{Binding RemoveCommand}"/>
+            <Separator/>
+            <MenuItem Header="Ignore This Process Type" Command="{Binding IgnoreProcessCommand}"
+                      ToolTip="Add this process name to the ignore list"/>
         </ContextMenu>
     </UserControl.ContextMenu>
 
@@ -132,8 +135,17 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center"
                                FontWeight="Medium"
-                               FontSize="13"
-                               Foreground="{StaticResource TextPrimaryBrush}">
+                               FontSize="13">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{StaticResource AccentEmeraldBrush}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsRunning}" Value="False">
+                                        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
                         <Run Text="{Binding Server.ProcessName, Mode=OneWay}"/>
                     </TextBlock>
 

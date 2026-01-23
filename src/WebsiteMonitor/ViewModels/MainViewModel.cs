@@ -162,6 +162,12 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void Exit()
+    {
+        Application.Current?.Shutdown();
+    }
+
+    [RelayCommand]
     private void CreateNewGroup(string groupName)
     {
         if (string.IsNullOrWhiteSpace(groupName)) return;

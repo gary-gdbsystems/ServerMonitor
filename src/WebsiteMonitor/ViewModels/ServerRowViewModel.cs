@@ -228,6 +228,24 @@ public partial class ServerRowViewModel : ObservableObject
         UpdateGroupName();
     }
 
+    [RelayCommand]
+    private void IgnoreProcess()
+    {
+        // Add this process name to the ignore list
+        _configService.AddIgnoredProcessName(Server.ProcessName);
+        // Also forget this server and remove from UI
+        _configService.ForgetServer(ServerKey);
+
+        if (_onRemove != null)
+        {
+            _onRemove(this);
+        }
+        else
+        {
+            _onRefresh();
+        }
+    }
+
     public void CreateAndAssignToGroup(string groupName)
     {
         var group = new ServerGroup { Name = groupName.Trim() };

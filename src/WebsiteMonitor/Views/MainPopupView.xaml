@@ -7,7 +7,7 @@
              xmlns:views="clr-namespace:WebsiteMonitor.Views"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
-             Width="400" Height="500"
+             Width="480" Height="500"
              Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
 
     <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
@@ -31,12 +31,19 @@
                                FontWeight="SemiBold"
                                FontSize="14"
                                VerticalAlignment="Center"/>
-                    <Button Content="↻"
-                            Command="{Binding RefreshCommand}"
-                            HorizontalAlignment="Right"
-                            Width="28" Height="28"
-                            FontSize="14"
-                            ToolTip="Refresh server list"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="↻"
+                                Command="{Binding RefreshCommand}"
+                                Width="28" Height="28"
+                                FontSize="14"
+                                Margin="0,0,4,0"
+                                ToolTip="Refresh server list"/>
+                        <Button Content="✕"
+                                Command="{Binding ExitCommand}"
+                                Width="28" Height="28"
+                                FontSize="12"
+                                ToolTip="Exit application"/>
+                    </StackPanel>
                 </Grid>
             </Border>
 

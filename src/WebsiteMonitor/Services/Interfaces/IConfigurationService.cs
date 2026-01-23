@@ -48,19 +48,24 @@ public interface IConfigurationService
     void Load();
 
     /// <summary>
-    /// Gets the list of monitored process names.
+    /// Gets the list of ignored process names (blacklist).
     /// </summary>
-    IReadOnlyList<string> GetMonitoredProcessNames();
+    IReadOnlyList<string> GetIgnoredProcessNames();
 
     /// <summary>
-    /// Adds a process name to monitor.
+    /// Adds a process name to the ignore list (blacklist).
     /// </summary>
-    void AddMonitoredProcessName(string processName);
+    void AddIgnoredProcessName(string processName);
 
     /// <summary>
-    /// Removes a process name from monitoring.
+    /// Removes a process name from the ignore list.
     /// </summary>
-    void RemoveMonitoredProcessName(string processName);
+    void RemoveIgnoredProcessName(string processName);
+
+    /// <summary>
+    /// Checks if a process name is in the ignore list.
+    /// </summary>
+    bool IsProcessIgnored(string processName);
 
     /// <summary>
     /// Gets all remembered servers that persist even when stopped.
