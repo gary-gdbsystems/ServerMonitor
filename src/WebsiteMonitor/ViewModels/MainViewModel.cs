@@ -225,6 +225,21 @@ public partial class MainViewModel : ObservableObject
 
     public IReadOnlyList<ServerGroup> AvailableGroups => _configService.GetGroups();
 
+    [RelayCommand]
+    private async Task StopGroup(string? groupName)
+    {
+        if (string.IsNullOrEmpty(groupName)) return;
+
+        var serversInGroup = Servers
+            .Where(s => s.IsRunning && s.GroupName == groupName)
+            .ToList();
+
+        foreach (var server in serversInGroup)
+        {
+            server.KillProcessCommand.Execute(null);
+        }
+    }
+
     private void RemoveServer(ServerRowViewModel vm)
     {
         Servers.Remove(vm);
