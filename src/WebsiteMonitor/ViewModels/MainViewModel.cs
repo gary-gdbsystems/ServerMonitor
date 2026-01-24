@@ -1,4 +1,6 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using WebsiteMonitor.Models;
@@ -22,6 +24,8 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private string _statusText = "0 servers running";
 
+    public ICollectionView ServersView { get; }
+
     public MainViewModel(
         IProcessMonitorService monitorService,
         IProcessTerminationService terminationService,
@@ -31,11 +35,30 @@ public partial class MainViewModel : ObservableObject
         _terminationService = terminationService;
         _configService = configService;
 
+        // Set up grouped collection view with live grouping
+        ServersView = CollectionViewSource.GetDefaultView(Servers);
+        ServersView.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
+
+        // Enable live grouping so groups update when GroupName changes
+        if (ServersView is ICollectionViewLiveShaping liveShaping)
+        {
+            liveShaping.IsLiveGrouping = true;
+            liveShaping.LiveGroupingProperties.Add("GroupName");
+        }
+
         _monitorService.ServersChanged += OnServersChanged;
         _monitorService.Start();
 
         // Initial load
         UpdateServers(_monitorService.CurrentServers);
+    }
+
+    /// <summary>
+    /// Called by ServerRowViewModel when group assignment changes to refresh the view.
+    /// </summary>
+    public void RefreshGrouping()
+    {
+        ServersView.Refresh();
     }
 
     private void OnServersChanged(object? sender, ServerListChangedEventArgs e)
@@ -133,7 +156,31 @@ public partial class MainViewModel : ObservableObject
             Servers.Add(vm);
         }
 
+        ServersView.Refresh();
         UpdateStatusText();
+
+        // Debug: Log grouping info to file
+        var debugLines = new List<string>
+        {
+            $"=== Grouping Debug {DateTime.Now:HH:mm:ss} ===",
+            $"Total servers: {Servers.Count}",
+            $"GroupDescriptions count: {ServersView.GroupDescriptions.Count}",
+            $"Groups count: {ServersView.Groups?.Count ?? 0}"
+        };
+        foreach (var server in Servers)
+        {
+            debugLines.Add($"  Server: {server.Server.ProcessName}:{server.Server.Port} -> Group: '{server.GroupName ?? "(null)"}'");
+        }
+        if (ServersView.Groups != null)
+        {
+            foreach (System.Windows.Data.CollectionViewGroup group in ServersView.Groups)
+            {
+                debugLines.Add($"  ViewGroup: '{group.Name}' with {group.ItemCount} items");
+            }
+        }
+        debugLines.Add($"=== End Debug ===");
+        debugLines.Add("");
+        System.IO.File.AppendAllLines(@"C:\source\repos\home\WebsiteMonitor\grouping-debug.txt", debugLines);
     }
 
     private void UpdateStatusText()

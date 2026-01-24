@@ -112,6 +112,83 @@
                           HorizontalScrollBarVisibility="Disabled"
                           Padding="0,0,4,0">
                 <ItemsControl ItemsSource="{Binding Servers}" Padding="12">
+                    <ItemsControl.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="GroupItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="GroupItem">
+                                                <Border x:Name="GroupBorder"
+                                                        CornerRadius="10"
+                                                        Margin="0,0,0,12"
+                                                        Background="#1A1A1A"
+                                                        BorderBrush="#2A2A2A"
+                                                        BorderThickness="1">
+                                                    <StackPanel>
+                                                        <!-- Group Header -->
+                                                        <Border x:Name="GroupHeader"
+                                                                CornerRadius="10,10,0,0"
+                                                                Padding="12,10"
+                                                                BorderBrush="#2A2A2A"
+                                                                BorderThickness="0,0,0,1">
+                                                            <Border.Background>
+                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                                    <GradientStop Color="#1E3A5F" Offset="0"/>
+                                                                    <GradientStop Color="#1A1A1A" Offset="0.3"/>
+                                                                </LinearGradientBrush>
+                                                            </Border.Background>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <!-- Blue accent bar -->
+                                                                <Border Width="3" Height="16"
+                                                                        CornerRadius="2"
+                                                                        Background="#3B82F6"
+                                                                        Margin="0,0,10,0"
+                                                                        VerticalAlignment="Center"/>
+                                                                <!-- Group name -->
+                                                                <TextBlock Text="{Binding Name}"
+                                                                           Foreground="#E0E0E0"
+                                                                           FontWeight="SemiBold"
+                                                                           FontSize="12"
+                                                                           VerticalAlignment="Center"/>
+                                                                <!-- Item count -->
+                                                                <Border CornerRadius="8"
+                                                                        Background="#2A2A2A"
+                                                                        Padding="6,2"
+                                                                        Margin="10,0,0,0"
+                                                                        VerticalAlignment="Center">
+                                                                    <TextBlock Text="{Binding ItemCount}"
+                                                                               Foreground="#6A6A6A"
+                                                                               FontSize="10"/>
+                                                                </Border>
+                                                            </StackPanel>
+                                                        </Border>
+                                                        <!-- Group Items -->
+                                                        <ItemsPresenter Margin="8,8,8,8"/>
+                                                    </StackPanel>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <!-- Hide container styling for ungrouped servers (null/empty GroupName) -->
+                                                    <DataTrigger Binding="{Binding Name}" Value="{x:Null}">
+                                                        <Setter TargetName="GroupBorder" Property="Background" Value="Transparent"/>
+                                                        <Setter TargetName="GroupBorder" Property="BorderThickness" Value="0"/>
+                                                        <Setter TargetName="GroupBorder" Property="Margin" Value="0"/>
+                                                        <Setter TargetName="GroupHeader" Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Name}" Value="">
+                                                        <Setter TargetName="GroupBorder" Property="Background" Value="Transparent"/>
+                                                        <Setter TargetName="GroupBorder" Property="BorderThickness" Value="0"/>
+                                                        <Setter TargetName="GroupBorder" Property="Margin" Value="0"/>
+                                                        <Setter TargetName="GroupHeader" Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                        </GroupStyle>
+                    </ItemsControl.GroupStyle>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type vm:ServerRowViewModel}">
                             <views:ServerRowView Margin="0,0,0,8"/>

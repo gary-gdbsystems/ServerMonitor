@@ -180,23 +180,6 @@
                         </TextBlock>
                     </Border>
 
-                    <!-- Group Label -->
-                    <Border CornerRadius="4"
-                            Padding="8,2"
-                            Margin="6,0,0,0"
-                            VerticalAlignment="Center"
-                            Visibility="{Binding GroupName, Converter={StaticResource NotNullToVisibilityConverter}}">
-                        <Border.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Color="#3B82F6" Offset="0"/>
-                                <GradientStop Color="#2563EB" Offset="1"/>
-                            </LinearGradientBrush>
-                        </Border.Background>
-                        <TextBlock Text="{Binding GroupName}"
-                                   FontSize="10"
-                                   FontWeight="Medium"
-                                   Foreground="White"/>
-                    </Border>
                 </StackPanel>
 
                 <!-- Status Info (subtle) -->

@@ -51,7 +51,18 @@
             <ScrollViewer Grid.Row="1"
                           VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled">
-                <ItemsControl ItemsSource="{Binding Servers}" Padding="8">
+                <ItemsControl ItemsSource="{Binding ServersView}" Padding="8">
+                    <ItemsControl.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <Border Background="#3B82F6" Padding="8,4" Margin="0,8,0,4" CornerRadius="4">
+                                        <TextBlock Text="{Binding Name}" Foreground="White" FontWeight="Bold"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </ItemsControl.GroupStyle>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type vm:ServerRowViewModel}">
                             <views:ServerRowView Margin="0,0,0,8"/>

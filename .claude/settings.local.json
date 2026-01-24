@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(dotnet build:*)",
+      "Bash(dotnet run:*)",
+      "Bash(npx http-server -p 4567)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(tasklist:*)",
+      "Bash(dotnet:*)",
+      "Skill(frontend-design)",
+      "Bash(taskkill:*)",
+      "Bash(powershell -Command \"Start-Process ''C:\\\\source\\\\repos\\\\home\\\\WebsiteMonitor\\\\src\\\\WebsiteMonitor\\\\bin\\\\Debug\\\\net8.0-windows\\\\WebsiteMonitor.exe''\")",
+      "Bash(start cmd /k \"npx http-server -p 4590\")",
+      "Bash(powershell -Command \"Start-Process cmd -ArgumentList ''/k cd C:/source/repos/home/WebsiteMonitor && npx http-server -p 4590''\")",
+      "Bash(powershell -Command \"Start-Process cmd -ArgumentList ''/k cd C:/source/repos/home/WebsiteMonitor && npx http-server -p 4600''\")",
+      "Bash(git add:*)",
+      "Bash(git rm:*)",
+      "Bash(git commit:*)",
+      "Bash(gh repo create:*)",
+      "Bash(powershell -Command \"Get-Process -Id 33252 | Select-Object ProcessName\")",
+      "Bash(powershell:*)",
+      "Bash(git push)",
+      "Bash(timeout:*)",
+      "Bash(ping:*)",
+      "Bash(cmd.exe /c start \"\" \"C:\\\\source\\\\repos\\\\home\\\\WebsiteMonitor\\\\src\\\\WebsiteMonitor\\\\bin\\\\Debug\\\\net8.0-windows\\\\WebsiteMonitor.exe\")",
+      "Bash(cmd.exe /c tasklist)",
+      "Bash(cmd.exe:*)",
+      "Bash(powershell.exe -Command \"& ''C:\\\\source\\\\repos\\\\home\\\\WebsiteMonitor\\\\src\\\\WebsiteMonitor\\\\bin\\\\Debug\\\\net8.0-windows\\\\WebsiteMonitor.exe''\")",
+      "Bash(powershell.exe -Command \"Get-Process | Where-Object {$_ProcessName -like ''*WebsiteMonitor*'' -or $_ProcessName -like ''*Website*''}\")"
+    ]
+  }
+}

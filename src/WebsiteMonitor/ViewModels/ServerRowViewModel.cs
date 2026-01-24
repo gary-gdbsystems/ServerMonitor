@@ -219,6 +219,7 @@ public partial class ServerRowViewModel : ObservableObject
     {
         _configService.AssignServerToGroup(Server.ServerKey, group.Id);
         UpdateGroupName();
+        _onRefresh(); // Refresh to update grouping in UI
     }
 
     [RelayCommand]
@@ -226,6 +227,7 @@ public partial class ServerRowViewModel : ObservableObject
     {
         _configService.RemoveServerAssignment(Server.ServerKey);
         UpdateGroupName();
+        _onRefresh(); // Refresh to update grouping in UI
     }
 
     [RelayCommand]
