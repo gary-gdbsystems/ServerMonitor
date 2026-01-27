@@ -158,29 +158,6 @@ public partial class MainViewModel : ObservableObject
 
         ServersView.Refresh();
         UpdateStatusText();
-
-        // Debug: Log grouping info to file
-        var debugLines = new List<string>
-        {
-            $"=== Grouping Debug {DateTime.Now:HH:mm:ss} ===",
-            $"Total servers: {Servers.Count}",
-            $"GroupDescriptions count: {ServersView.GroupDescriptions.Count}",
-            $"Groups count: {ServersView.Groups?.Count ?? 0}"
-        };
-        foreach (var server in Servers)
-        {
-            debugLines.Add($"  Server: {server.Server.ProcessName}:{server.Server.Port} -> Group: '{server.GroupName ?? "(null)"}'");
-        }
-        if (ServersView.Groups != null)
-        {
-            foreach (System.Windows.Data.CollectionViewGroup group in ServersView.Groups)
-            {
-                debugLines.Add($"  ViewGroup: '{group.Name}' with {group.ItemCount} items");
-            }
-        }
-        debugLines.Add($"=== End Debug ===");
-        debugLines.Add("");
-        System.IO.File.AppendAllLines(@"C:\source\repos\home\WebsiteMonitor\grouping-debug.txt", debugLines);
     }
 
     private void UpdateStatusText()
