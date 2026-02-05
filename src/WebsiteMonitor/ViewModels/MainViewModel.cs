@@ -222,4 +222,20 @@ public partial class MainViewModel : ObservableObject
         Servers.Remove(vm);
         UpdateStatusText();
     }
+
+    [RelayCommand]
+    private void RemoveAllStopped()
+    {
+        var stoppedServers = Servers.Where(s => !s.IsRunning).ToList();
+
+        foreach (var server in stoppedServers)
+        {
+            // Forget the server from config
+            _configService.ForgetServer(server.ServerKey);
+            // Remove from UI
+            Servers.Remove(server);
+        }
+
+        UpdateStatusText();
+    }
 }
